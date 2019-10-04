@@ -1,0 +1,29 @@
+root = true
+
+[*]
+# charset = utf-8
+# end_of_line = lf
+# indent_size = 4
+# indent_style = space
+# insert_final_newline = true
+# max_line_length = 120
+# tab_width = 4
+# trim_trailing_whitespace = true
+
+[{*.sht,*.htm,*.html,*.shtm,*.shtml,*.ng}]
+# indent_size = 2
+# tab_width = 2
+
+[{.analysis_options,*.yml,*.yaml}]
+# indent_size = 2
+
+[{.eslintrc,prod,.prettierrc,.babelrc,jest.config,vanrdbxd2,htmlhintrc,.stylelintrc,*.bowerrc,*.jsb3,*.jsb2,*.json}]
+# indent_size = 2
+
+[{cli,*.cjs,*.js}]
+# indent_size = 2
+# tab_width = 2
+
+[{team-timecards-custom-filter-2,meta-transform-constant,doctor,team-timecards-custom-filter-1,proxy-set,*.module,*.tx,*.ts,*.ats}]
+# indent_size = 2
+# tab_width = 2

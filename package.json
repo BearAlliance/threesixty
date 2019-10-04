@@ -7,7 +7,8 @@
     "start-client": "react-scripts start",
     "start-server": "nodemon server/bin/www",
     "build": "react-scripts build",
-    "test": "react-scripts test && npm run prettier:check",
+    "test": "react-scripts test --watchAll=false && npm run prettier:check",
+    "test:watch": "react-scripts test",
     "eject": "react-scripts eject",
     "prettier:check": "prettier --check --ignore-path .gitignore '**/*.+(ts|js|md|json)'",
     "prettier:fix": "prettier --write --ignore-path .gitignore '**/*.+(ts|js|md|json)'"

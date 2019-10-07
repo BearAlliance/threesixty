@@ -67,7 +67,7 @@ class _Nav extends React.Component {
 
     return (
       <nav
-        className="navbar has-background-light"
+        className="navbar has-background-grey-lighter"
         role="navigation"
         aria-label="main navigation">
         <div className="navbar-brand">

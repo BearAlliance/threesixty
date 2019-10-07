@@ -1,5 +1,6 @@
 import React from 'react';
 import { LoaderButton } from '../shared/button-with-loader.component';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
 
 export class SignupPage extends React.Component {
   constructor(props) {
@@ -9,16 +10,27 @@ export class SignupPage extends React.Component {
     };
   }
 
-  handleSubmit() {
+  handleSubmit(values, actions) {
     this.setState({
       loading: true
     });
 
-    setTimeout(() => {
+    fetch('./signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(values)
+    }).then(res => {
+      // User already exists
+      if (res.status === 400) {
+        actions.setErrors({ email1: 'This email is already registered' });
+      }
+      actions.setSubmitting(false);
       this.setState({
         loading: false
       });
-    }, 500);
+    });
   }
 
   render() {
@@ -29,41 +41,56 @@ export class SignupPage extends React.Component {
           <div className="column box">
             <h3 className="is-size-3">Sign Up</h3>
 
-            <div className="field">
-              <div className="control">
-                <label className="label">Email Address</label>
-                <input className="input" type="text" placeholder="Username" />
-              </div>
-            </div>
-            <div className="field">
-              <div className="control">
-                <label className="label">Password</label>
-                <input
-                  className="input"
-                  type="password"
-                  placeholder="Password"
-                />
-              </div>
-            </div>
-            <div className="field">
-              <div className="control">
-                <label className="label">Repeat Password</label>
-                <input
-                  className="input"
-                  type="password"
-                  placeholder="Password"
-                />
-              </div>
-            </div>
+            <Formik
+              onSubmit={(values, actions) => this.handleSubmit(values, actions)}
+              initialValues={{}}
+              render={({ errors, status, touched, isSubmitting }) => (
+                <Form>
+                  <div className="field">
+                    <div className="control">
+                      <label className="label">Email Address</label>
+                      <Field
+                        className="input"
+                        type="text"
+                        name="email1"
+                        placeholder="Email"
+                      />
+                      <ErrorMessage
+                        className="has-text-danger"
+                        name="email1"
+                        component="div"
+                      />
+                    </div>
+                  </div>
+                  <div className="field">
+                    <div className="control">
+                      <label className="label">Password</label>
+                      <Field
+                        className="input"
+                        type="password"
+                        name="password"
+                        placeholder="Password"
+                      />
+                      <ErrorMessage
+                        className="has-text-danger"
+                        name="password"
+                        component="div"
+                      />
+                    </div>
+                  </div>
 
-            <div className="field">
-              <div className="control">
-                <LoaderButton
-                  loading={this.state.loading}
-                  onClick={() => this.handleSubmit()}
-                  text="Submit"></LoaderButton>
-              </div>
-            </div>
+                  <div className="field">
+                    <div className="control">
+                      <LoaderButton
+                        className="button is-link"
+                        text="Submit"
+                        loading={isSubmitting}
+                      />
+                    </div>
+                  </div>
+                </Form>
+              )}
+            />
           </div>
           <div className="column" />
         </div>

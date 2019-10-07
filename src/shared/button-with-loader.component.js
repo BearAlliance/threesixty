@@ -11,7 +11,7 @@ export const LoaderButton = ({ onClick, text, loading }) => {
   });
 
   return (
-    <button className={buttonClass} onClick={onClick}>
+    <button className={buttonClass} onClick={onClick} type="submit">
       {text}
     </button>
   );

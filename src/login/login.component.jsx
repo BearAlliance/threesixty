@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { login } from '../store/actions';
 import { LoaderButton } from '../shared/button-with-loader.component';
 import { Redirect } from 'react-router';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
 
 export class _LoginPage extends React.Component {
   constructor(props) {
@@ -12,18 +13,30 @@ export class _LoginPage extends React.Component {
     };
   }
 
-  handleLogin() {
-    console.log('logging in');
+  handleLogin(values, actions) {
     this.setState({
       loading: true
     });
 
-    setTimeout(() => {
-      this.props.login('nick');
+    fetch('/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(values)
+    }).then(res => {
+      actions.setSubmitting(false);
       this.setState({
         loading: false
       });
-    }, 500);
+      if (res.status === 400) {
+        actions.setErrors({
+          email: 'Email or Password is invalid'
+        });
+      } else {
+        this.props.login('nick');
+      }
+    });
   }
 
   render() {
@@ -35,33 +48,60 @@ export class _LoginPage extends React.Component {
         <div className="columns">
           <div className="column" />
           <div className="column box">
-            <h3 className="is-size-3">Login</h3>
+            <Formik
+              onSubmit={(values, actions) => this.handleLogin(values, actions)}
+              initialValues={{}}
+              render={({ errors, status, touched, isSubmitting }) => (
+                <Form>
+                  <h3 className="is-size-3">Login</h3>
 
-            <div className="field">
-              <div className="control">
-                <label className="label">Username</label>
-                <input className="input" type="text" placeholder="Username" />
-              </div>
-            </div>
-            <div className="field">
-              <div className="control">
-                <label className="label">Password</label>
-                <input
-                  className="input"
-                  type="password"
-                  placeholder="Password"
-                />
-              </div>
-            </div>
+                  <div className="field">
+                    <div className="control">
+                      <label className="label">Username</label>
+                      <Field
+                        className="input"
+                        type="input"
+                        name="email"
+                        placeholder="Email"
+                      />
+                      <ErrorMessage
+                        className="has-text-danger"
+                        name="email"
+                        component="div"
+                      />
+                    </div>
+                  </div>
+                  <div className="field">
+                    <div className="control">
+                      <label className="label">Password</label>
+                      <Field
+                        className="input"
+                        type="password"
+                        name="password"
+                        placeholder="Password"
+                      />
+                      <ErrorMessage
+                        className="has-text-danger"
+                        name="password"
+                        component="div"
+                      />
+                    </div>
+                  </div>
 
-            <div className="field">
-              <div className="control">
-                <LoaderButton
-                  loading={this.state.loading}
-                  onClick={() => this.handleLogin()}
-                  text="Submit"></LoaderButton>
-              </div>
-            </div>
+                  <div className="field">
+                    <div className="control">
+                      <LoaderButton
+                        className="button is-link"
+                        loading={isSubmitting}
+                        disabled={isSubmitting}
+                        text="Submit"
+                        type="submit"
+                      />
+                    </div>
+                  </div>
+                </Form>
+              )}
+            />
           </div>
           <div className="column" />
         </div>

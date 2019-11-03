@@ -1,12 +1,15 @@
 import React from 'react';
 import { LoaderButton } from '../shared/button-with-loader.component';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
+import { Redirect } from 'react-router';
+import { Link } from 'react-router-dom';
 
 export class SignupPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: false
+      loading: false,
+      signedUp: null
     };
   }
 
@@ -28,12 +31,16 @@ export class SignupPage extends React.Component {
       }
       actions.setSubmitting(false);
       this.setState({
-        loading: false
+        loading: false,
+        signedUp: true
       });
     });
   }
 
   render() {
+    if (this.state.redirect) {
+      return <Redirect to={this.state.redirect} />;
+    }
     return (
       <div className="section">
         <div className="columns">
@@ -91,6 +98,12 @@ export class SignupPage extends React.Component {
                 </Form>
               )}
             />
+            {this.state.signedUp && (
+              <div>
+                <span className="has-text-success">Nice!</span> You're signed
+                up. Now just to <Link to="/login">Login</Link>
+              </div>
+            )}
           </div>
           <div className="column" />
         </div>

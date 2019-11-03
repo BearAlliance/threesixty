@@ -15,7 +15,7 @@ router.post('/login', login);
 router.post('/signup', signup);
 
 function signup(req, res, next) {
-  logger.info('creating user', req.body.email1);
+  logger.debug('creating user', req.body.email1);
   const { email1, password } = req.body;
 
   userExists(email1).then(alreadyExists => {
@@ -24,7 +24,7 @@ function signup(req, res, next) {
       res.status(400).json({ error: 'User already exists' });
     } else {
       return createUser(email1, password).then(() => {
-        logger.info(`Created user ${email1}`);
+        logger.debug(`Created user ${email1}`);
         res.status(201).json({ success: true });
       });
     }

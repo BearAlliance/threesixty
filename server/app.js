@@ -6,7 +6,6 @@ import logger from 'morgan';
 import session from 'express-session';
 
 import indexRouter from './routes/index';
-import usersRouter from './routes/users';
 import * as db from './db';
 
 const app = express();
@@ -37,7 +36,6 @@ export async function bootstrap() {
   );
 
   app.use('/api', indexRouter);
-  app.use('/users', usersRouter);
 
   // catch 404 and forward to error handler
   app.use(function(req, res, next) {

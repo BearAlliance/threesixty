@@ -83,6 +83,7 @@ class _Nav extends React.Component {
           </Link>
 
           <a
+            href=""
             role="button"
             className={burgerClass}
             aria-label="menu"
@@ -102,13 +103,15 @@ class _Nav extends React.Component {
             </Link>
 
             <div className="navbar-item has-dropdown is-hoverable">
-              <a className="navbar-link">More</a>
+              <a className="navbar-link" href="">
+                More
+              </a>
 
               <div className="navbar-dropdown">
-                <a className="navbar-item">About</a>
-                <a className="navbar-item">Contact</a>
+                <Link className="navbar-item">About</Link>
+                <Link className="navbar-item">Contact</Link>
                 <hr className="navbar-divider" />
-                <a className="navbar-item">Report an issue</a>
+                <Link className="navbar-item">Report an issue</Link>
               </div>
             </div>
           </div>

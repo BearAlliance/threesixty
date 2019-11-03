@@ -1,4 +1,5 @@
 import express from 'express';
+
 const router = express.Router();
 
 import * as db from '../db';
@@ -46,11 +47,14 @@ function createUser(email, password) {
 
 function login(req, res, next) {
   const { email, password } = req.body;
+  logger.debug(`Attempting login for ${email}`);
   authenticateUser(email, password).then(isAuthenticated => {
     if (isAuthenticated) {
+      logger.debug(`Login successful for ${email}`);
       res.status(200).json({ authenticated: true });
     } else {
-      res.status(400).json({ error: 'invalid credentials' });
+      logger.debug(`Login failed for ${email}`);
+      res.status(401).json({ error: 'invalid credentials' });
     }
   });
 }
@@ -61,11 +65,10 @@ function authenticateUser(email, password) {
   }
   return db
     .query(
-      `SELECT * from users WHERE email = '${email}' AND psw = '${password}'`
+      `SELECT * from users WHERE email = '${email}' AND password = '${password}'`
     )
     .then(result => {
-      console.log('result', result);
-      return result.length > 0;
+      return result.rows.length > 0;
     });
 }
 

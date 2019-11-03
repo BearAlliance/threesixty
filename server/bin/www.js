@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 /**
  * Module dependencies.
  */
@@ -10,9 +8,7 @@ var app = require('../app');
 var debug = require('debug')('server:server');
 var http = require('http');
 
-
 app.bootstrap().then(() => {
-
   /**
    * Get port from environment and store in Express.
    */
@@ -34,7 +30,6 @@ app.bootstrap().then(() => {
   server.on('error', onError);
   server.on('listening', onListening);
   console.log(`Server started. Listening on port ${PORT}`);
-
 
   /**
    * Normalize a port into a number, string, or false.
@@ -65,20 +60,18 @@ app.bootstrap().then(() => {
       throw error;
     }
 
-    var bind = typeof port === 'string'
-      ? 'Pipe ' + port
-      : 'Port ' + port;
+    var bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
 
     // handle specific listen errors with friendly messages
     switch (error.code) {
       case 'EACCES':
         console.error(bind + ' requires elevated privileges');
+        // eslint-disable-next-line no-process-exit
         process.exit(1);
-        break;
       case 'EADDRINUSE':
         console.error(bind + ' is already in use');
+        // eslint-disable-next-line no-process-exit
         process.exit(1);
-        break;
       default:
         throw error;
     }
@@ -90,10 +83,7 @@ app.bootstrap().then(() => {
 
   function onListening() {
     var addr = server.address();
-    var bind = typeof addr === 'string'
-      ? 'pipe ' + addr
-      : 'port ' + addr.port;
+    var bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
     debug('Listening on ' + bind);
   }
-
 });

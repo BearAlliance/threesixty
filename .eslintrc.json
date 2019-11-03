@@ -1,0 +1,10 @@
+{
+  "extends": ["eslint:recommended", "eslint-config-prettier"],
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": 2017
+  },
+  "globals": {
+    "Promise": "readonly"
+  }
+}

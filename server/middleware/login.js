@@ -1,7 +1,7 @@
 import logger from '../logger';
 import * as db from '../db';
 
-export function login(req, res, next) {
+export function login(req, res) {
   const { email, password } = req.body;
   logger.debug(`Attempting login for ${email}`);
   authenticateUser(email, password).then(isAuthenticated => {

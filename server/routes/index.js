@@ -7,7 +7,7 @@ import { login } from '../middleware/login';
 import { logout } from '../middleware/logout';
 
 // Get app health
-router.get('/', function(req, res, next) {
+router.get('/', function(req, res) {
   res.sendStatus(200);
 });
 

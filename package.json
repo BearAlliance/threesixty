@@ -9,7 +9,9 @@
     "start-server": "DATABASE_URL=postgresql://localhost:5432 nodemon --exec babel-node server/bin/start",
     "startdb": "docker run --name=mysql1 -d mysql/mysql-server:8.0",
     "build": "rimraf dist && cp -R server/ dist/ && react-scripts build && mv build/* dist/public",
-    "test": "react-scripts test --watchAll=false && npm run prettier:check",
+    "test": "npm run lint && npm run test:unit && npm run prettier:check",
+    "lint": "eslint src/**/*.js server/**/*.js",
+    "test:unit": "react-scripts test --watchAll=false",
     "test:watch": "react-scripts test",
     "eject": "react-scripts eject",
     "prettier:check": "prettier --check --ignore-path .gitignore '**/*.+(ts|js|md|json)'",
@@ -45,6 +47,9 @@
     "bulma": "^0.7.5",
     "classnames": "^2.2.6",
     "concurrently": "^4.1.2",
+    "eslint": "^6.6.0",
+    "eslint-config-prettier": "^6.5.0",
+    "eslint-plugin-node": "^10.0.0",
     "formik": "^1.5.8",
     "husky": "^3.0.8",
     "nodemon": "^1.19.4",
@@ -58,6 +63,9 @@
     "redux": "^4.0.4",
     "rimraf": "^3.0.0",
     "yup": "^0.27.0"
+  },
+  "engines": {
+    "node": ">=10.0.0"
   },
   "proxy": "http://localhost:8000/api",
   "eslintConfig": {

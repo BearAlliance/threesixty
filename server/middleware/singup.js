@@ -1,7 +1,7 @@
 import logger from '../logger';
 import * as db from '../db';
 
-export function signup(req, res, next) {
+export function signup(req, res) {
   logger.debug('creating user', req.body.email1);
   const { email1, password } = req.body;
 

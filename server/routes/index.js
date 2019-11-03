@@ -1,7 +1,7 @@
 import express from 'express';
 const router = express.Router();
 
-import db from '../db';
+import * as db from '../db';
 import logger from '../logger';
 
 // Get app health
@@ -14,7 +14,7 @@ router.post('/login', login);
 router.post('/signup', signup);
 
 function signup(req, res, next) {
-  logger.info('creating user', req.body);
+  logger.info('creating user', req.body.email1);
   const { email1, password } = req.body;
 
   userExists(email1).then(alreadyExists => {
@@ -32,12 +32,14 @@ function userExists(email) {
   return db
     .query(`SELECT * from users WHERE email = '${email}'`)
     .then(result => {
-      return result.length > 0;
+      return result.rows.length > 0;
     });
 }
 
 function createUser(email, password) {
-  return db.query(`INSERT INTO users VALUES ('${email}', '${password}')`);
+  return db.query(
+    `INSERT INTO users(email, password) VALUES('${email}', '${password}')`
+  );
 }
 
 function login(req, res, next) {

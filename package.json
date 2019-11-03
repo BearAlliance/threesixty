@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "node dist/bin/start",
+    "start": "nodemon dist/bin/start",
     "start:dev": "concurrently npm:start-* --kill-others-on-fail",
     "start-client": "react-scripts start",
-    "start-server": "nodemon --exec babel-node server/bin/start",
+    "start-server": "DATABASE_URL=postgresql://localhost:5432 nodemon --exec babel-node server/bin/start",
     "startdb": "docker run --name=mysql1 -d mysql/mysql-server:8.0",
     "build": "rimraf dist && cp -R server/ dist/ && react-scripts build && mv build/* dist/public",
     "test": "react-scripts test --watchAll=false && npm run prettier:check",
@@ -24,7 +24,7 @@
     "http-errors": "~1.6.3",
     "jade": "~1.11.0",
     "morgan": "~1.9.1",
-    "mysql": "^2.17.1",
+    "pg": "^7.12.1",
     "react-redux": "^7.1.1",
     "request": "^2.88.0"
   },

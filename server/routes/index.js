@@ -19,9 +19,11 @@ function signup(req, res, next) {
 
   userExists(email1).then(alreadyExists => {
     if (alreadyExists) {
+      logger.warn(`User ${email1} already exists`);
       res.status(400).json({ error: 'User already exists' });
     } else {
       return createUser(email1, password).then(() => {
+        logger.info(`Created user ${email1}`);
         res.status(201).json({ success: true });
       });
     }

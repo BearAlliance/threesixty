@@ -6,6 +6,7 @@ export function login(req, res, next) {
   logger.debug(`Attempting login for ${email}`);
   authenticateUser(email, password).then(isAuthenticated => {
     if (isAuthenticated) {
+      req.session.authenticated = true;
       logger.debug(`Login successful for ${email}`);
       res.status(200).json({ authenticated: true });
     } else {

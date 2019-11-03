@@ -3,10 +3,10 @@ import express from 'express';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
+import session from 'express-session';
 
 import indexRouter from './routes/index';
 import usersRouter from './routes/users';
-// import db, { MODE_PRODUCTION } from './db-old';
 import * as db from './db';
 
 const app = express();
@@ -25,6 +25,16 @@ export async function bootstrap() {
   app.use(express.urlencoded({ extended: false }));
   app.use(cookieParser());
   app.use(express.static(path.join(__dirname, 'public')));
+
+  app.use(
+    '/api',
+    session({
+      secret: 'keyboard cat',
+      resave: false,
+      saveUninitialized: true,
+      cookie: { maxAge: 60000 }
+    })
+  );
 
   app.use('/api', indexRouter);
   app.use('/users', usersRouter);

@@ -2,10 +2,9 @@ import express from 'express';
 
 const router = express.Router();
 
-import * as db from '../db';
-import logger from '../logger';
 import { signup } from '../middleware/singup';
 import { login } from '../middleware/login';
+import { logout } from '../middleware/logout';
 
 // Get app health
 router.get('/', function(req, res, next) {
@@ -13,6 +12,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.post('/login', login);
+router.post('/logout', logout);
 router.post('/signup', signup);
 
 export default router;

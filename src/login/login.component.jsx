@@ -29,7 +29,7 @@ export class _LoginPage extends React.Component {
       this.setState({
         loading: false
       });
-      if (res.status === 400) {
+      if (res.status === 401) {
         actions.setErrors({
           email: 'Email or Password is invalid'
         });

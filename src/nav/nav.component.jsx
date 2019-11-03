@@ -19,7 +19,14 @@ class _Nav extends React.Component {
   }
 
   handleLogout() {
-    this.props.logout();
+    fetch('./logout', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    }).then(() => {
+      this.props.logout();
+    });
   }
 
   navbarEnd() {

@@ -9,7 +9,10 @@ export function login(req, res) {
       logger.debug(`Login successful for ${email}`);
       req.session.authenticated = true;
       req.session.userData = userData;
-      res.status(200).json({ authenticated: true });
+      res.status(200).json({
+        authenticated: true,
+        userData: { firstName: userData.first_name, userId: userData.user_id }
+      });
     } else {
       logger.debug(`Login failed for ${email}`);
       res.status(401).json({ error: 'invalid credentials' });

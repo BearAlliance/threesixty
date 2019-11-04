@@ -9,34 +9,38 @@ export class _LoginPage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      loading: false
+      error: null
     };
   }
 
   handleLogin(values, actions) {
-    this.setState({
-      loading: true
-    });
-
     fetch('/api/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(values)
-    }).then(res => {
-      actions.setSubmitting(false);
-      this.setState({
-        loading: false
+    })
+      .then(res => (res.ok ? res.json() : Promise.reject(res)))
+      .then(res => {
+        actions.setSubmitting(false);
+        this.props.login(res.userData.firstName);
+      })
+      .catch(res => {
+        console.log(res);
+        actions.setSubmitting(false);
+        switch (res.status) {
+          case 401:
+            console.log(401);
+            actions.setErrors({
+              email: 'Email or Password is invalid'
+            });
+          default:
+            this.setState({
+              error: true
+            });
+        }
       });
-      if (res.status === 401) {
-        actions.setErrors({
-          email: 'Email or Password is invalid'
-        });
-      } else {
-        this.props.login('nick');
-      }
-    });
   }
 
   render() {
@@ -97,6 +101,9 @@ export class _LoginPage extends React.Component {
                         text="Submit"
                         type="submit"
                       />
+                      {this.state.error && (
+                        <div className="has-text-danger">Error logging in</div>
+                      )}
                     </div>
                   </div>
                 </Form>

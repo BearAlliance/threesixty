@@ -1,9 +1,11 @@
+import logger from './logger';
+
 const { Client } = require('pg');
 
 let client;
 
 export function connect() {
-  console.log('connecting');
+  logger.info('Connecting to Postgres');
   client = new Client({
     connectionString: process.env.DATABASE_URL,
     ssl: process.env.NODE_ENV === 'production'

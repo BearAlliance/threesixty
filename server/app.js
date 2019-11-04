@@ -7,6 +7,7 @@ import session from 'express-session';
 
 import indexRouter from './routes/index';
 import * as db from './db';
+import { checkTables } from './db-scripts/seed-db';
 
 const app = express();
 
@@ -18,6 +19,7 @@ export async function bootstrap() {
   // db setup
   await db.connect();
   await db.testQuery();
+  await checkTables();
 
   app.use(logger('dev'));
   app.use(express.json());

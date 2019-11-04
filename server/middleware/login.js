@@ -21,9 +21,10 @@ function authenticateUser(email, password) {
     return Promise.resolve(false);
   }
   return db
-    .query(
-      `SELECT * from users WHERE email = '${email}' AND password = '${password}'`
-    )
+    .query({
+      text: 'SELECT * from accounts WHERE email = $1 AND password = $2',
+      values: [email, password]
+    })
     .then(result => {
       return result.rows.length > 0;
     });

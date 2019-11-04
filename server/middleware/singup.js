@@ -2,7 +2,6 @@ import logger from '../logger';
 import * as db from '../db';
 
 export function signup(req, res) {
-  logger.debug('creating user', req.body.email1);
   const { email1, password } = req.body;
 
   userExists(email1).then(alreadyExists => {
@@ -10,6 +9,7 @@ export function signup(req, res) {
       logger.warn(`User ${email1} already exists`);
       res.status(400).json({ error: 'User already exists' });
     } else {
+      logger.debug('creating user', req.body.email1);
       return createUser(email1, password).then(() => {
         logger.debug(`Created user ${email1}`);
         res.status(201).json({ success: true });
@@ -19,15 +19,16 @@ export function signup(req, res) {
 }
 
 function userExists(email) {
+  console.log(email);
   return db
-    .query(`SELECT * from users WHERE email = '${email}'`)
-    .then(result => {
-      return result.rows.length > 0;
-    });
+    .query({ text: `SELECT * from accounts WHERE email = $1`, values: [email] })
+    .then(result => result.rows.length > 0);
 }
 
 function createUser(email, password) {
-  return db.query(
-    `INSERT INTO users(email, password) VALUES('${email}', '${password}')`
-  );
+  const createdOn = new Date().toISOString();
+  return db.query({
+    text: `INSERT INTO accounts(email, password, created_on) VALUES($1, $2, $3)`,
+    values: [email, password, createdOn]
+  });
 }

@@ -38,6 +38,8 @@ async function createAccounts() {
   password character varying(50) COLLATE pg_catalog."default" NOT NULL,
   email character varying(355) COLLATE pg_catalog."default" NOT NULL,
   created_on timestamp without time zone NOT NULL,
+  first_name character varying(50),
+  last_name character varying(50),
   last_login timestamp without time zone,
   CONSTRAINT account_email_key UNIQUE (email)
 )`;

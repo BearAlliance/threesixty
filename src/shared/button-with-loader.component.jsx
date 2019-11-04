@@ -1,5 +1,4 @@
 import React from 'react';
-import { Loading } from './loading.component';
 import './button-with-loader.component.css';
 import classnames from 'classnames';
 

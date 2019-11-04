@@ -19,7 +19,7 @@ class _Nav extends React.Component {
   }
 
   handleLogout() {
-    fetch('./logout', {
+    fetch('/api/logout', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'

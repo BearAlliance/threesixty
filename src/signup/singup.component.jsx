@@ -15,10 +15,11 @@ export class SignupPage extends React.Component {
 
   handleSubmit(values, actions) {
     this.setState({
-      loading: true
+      loading: true,
+      signedUp: null
     });
 
-    fetch('./signup', {
+    fetch('/api/signup', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -26,13 +27,21 @@ export class SignupPage extends React.Component {
       body: JSON.stringify(values)
     }).then(res => {
       // User already exists
-      if (res.status === 400) {
-        actions.setErrors({ email1: 'This email is already registered' });
+      switch (res.status) {
+        case 400:
+          actions.setErrors({ email1: 'This email is already registered' });
+          break;
+        case 201:
+          this.setState({
+            signedUp: true
+          });
+          break;
+        default:
+          this.setState({ error: true });
       }
       actions.setSubmitting(false);
       this.setState({
-        loading: false,
-        signedUp: true
+        loading: false
       });
     });
   }

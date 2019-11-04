@@ -18,7 +18,7 @@ export class _LoginPage extends React.Component {
       loading: true
     });
 
-    fetch('/login', {
+    fetch('/api/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
